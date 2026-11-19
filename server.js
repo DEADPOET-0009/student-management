@@ -51,8 +51,17 @@ app.post("/students", async (req, res) => {
   res.redirect("/add-student");
 });
 
-app.listen(3000, () => {
-  console.log("App Started");
-  console.log("Server running at http://localhost:3000/");
-  connectToMongoDB();
-});
+async function startServer() {
+  try {
+    await connectToMongoDB();
+
+    app.listen(3000, () => {
+      console.log("App Started");
+      console.log("Server running at http://localhost:3000/");
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err);
+  }
+}
+
+startServer();
